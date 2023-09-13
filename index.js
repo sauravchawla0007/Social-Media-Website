@@ -4,6 +4,9 @@ const port = 8000;
 
 const expressLayouts = require('express-ejs-layouts');
 
+//acessing database
+const db  = require('./config/mongoose');
+
 //app look out for static(assets)
 //app accessing assets folder and its files
 app.use(express.static('./assets'));
