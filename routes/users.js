@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
-//feting user controller route
+const passport = require('passport');
+
+//fetching user controller route
 const usersController = require('../controllers/users_controller');
 router.get('/profile',usersController.profile);
 
@@ -9,6 +11,10 @@ router.get('/sign-in',usersController.signIn);
 
 //form is posting the data (sign up)
 router.post('/create',usersController.create);
+//use passport as a middleware to authenticate
+router.post('/create-session', passport.authenticate(
+    'local',
+    {failureRedirect: '/users/sign-in'},
+), usersController.createSession);
 
-router.post('/create-session',usersController.createSession);
 module.exports = router;

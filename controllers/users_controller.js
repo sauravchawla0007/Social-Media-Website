@@ -3,7 +3,7 @@ const User = require('../models/user');
 module.exports.profile = async function(req, res){
   try{
       let user = await User.findById(req.cookies.user_id);
-      //console.log(user);
+      console.log(user);
           return res.render('user_profile', {
               title: 'User Profile',
               user: req.user,
@@ -63,26 +63,32 @@ module.exports.create = async (req, res) => {
 
 
 // sign in and create a session for the user
+// module.exports.createSession = async function (req, res) {
+//   //steps to authenticate   
+//   try {
+//       const user = await User.findOne({ email: req.body.email }).exec();
+  
+//       if (!user) {
+//         // Handle user not found
+//         return res.redirect('back');
+//       }
+  
+//       if (user.password !== req.body.password) {
+//         // Handle password mismatch
+//         return res.redirect('back');
+//       }
+  
+//       // Handle session creation(if password matches we set the cookie with user id )
+//       res.cookie('user_id', user.id);
+//       return res.redirect('/users/profile');
+//     } catch (err) {
+//       console.error('Error in finding user in signing in:', err);
+//       return res.redirect('back');
+//     }
+//   };
+
+
+// sign in and create a session for the user
 module.exports.createSession = async function (req, res) {
-  //steps to authenticate   
-  try {
-      const user = await User.findOne({ email: req.body.email }).exec();
-  
-      if (!user) {
-        // Handle user not found
-        return res.redirect('back');
-      }
-  
-      if (user.password !== req.body.password) {
-        // Handle password mismatch
-        return res.redirect('back');
-      }
-  
-      // Handle session creation(if password matches we set the cookie with user id )
-      res.cookie('user_id', user.id);
-      return res.redirect('/users/profile');
-    } catch (err) {
-      console.error('Error in finding user in signing in:', err);
-      return res.redirect('back');
-    }
-  };
+  return res.redirect('/');
+}
