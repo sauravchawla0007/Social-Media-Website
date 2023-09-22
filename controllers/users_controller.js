@@ -1,13 +1,15 @@
 const User = require('../models/user');
 
 module.exports.profile = async function(req, res){
+  console.log(req.cookies,"inside profile");
   try{
-      let user = await User.findById(req.cookies.user_id);
-      console.log(user);
+    
+      // let user = await User.findById(req.cookies.user_id);
+      // console.log(user,"user found");
           return res.render('user_profile', {
               title: 'User Profile',
               user: req.user,
-              profile_user:user
+             // profile_user:user
           });
         
   }catch(err){
@@ -25,6 +27,10 @@ module.exports.profile = async function(req, res){
 
 //render the sign up page
 module.exports.signUp = function(req,res){
+   if(req.isAuthenticated()){
+    return res.redirect('/users/profile');
+   }
+
     return res.render('user_sign_up',{
         title:"Social | Sign Up",
     })
@@ -32,6 +38,11 @@ module.exports.signUp = function(req,res){
 
 //render the sign in page
 module.exports.signIn = function(req,res){
+
+  if(req.isAuthenticated()){
+    return res.redirect('/users/profile');
+  } 
+
   return res.render('user_sign_in',{
       title:"Social | Sign In",
   })
@@ -62,7 +73,7 @@ module.exports.create = async (req, res) => {
   };
 
 
-// sign in and create a session for the user
+//sign in and create a session for the user
 // module.exports.createSession = async function (req, res) {
 //   //steps to authenticate   
 //   try {
@@ -89,6 +100,18 @@ module.exports.create = async (req, res) => {
 
 
 // sign in and create a session for the user
-module.exports.createSession = async function (req, res) {
+module.exports.createSession = function(req, res){
+  console.log('success', 'Logged in Successfully');
+  return res.redirect('/');
+}
+
+module.exports.destroySession = function(req, res){
+  req.logout(req.user, err => {
+      if(err) return ;
+      res.redirect("/");
+    });
+  console.log('success', 'You have logged out!');
+
+
   return res.redirect('/');
 }
