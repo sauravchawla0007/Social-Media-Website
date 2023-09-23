@@ -3,7 +3,13 @@
         <title>
             <%= title %>
         </title>
-        <link rel="stylesheet" href="/css/layout.css">
+        <!-- <link rel="stylesheet" href="/css/layout.css"> -->
+        <!-- <link rel="stylesheet" href="/css/header.css"> -->
+        <!-- linking the layout.css file  -->
+  <link rel="stylesheet" type="text/css" href="/css/layout.css" />
+  <!-- css for _header & _footer  -->
+  <link rel="stylesheet" type="text/css" href="/css/header.css" />
+        <link rel="stylesheet" href="/css/footer.css">
         <%-style%>
     </head>
 
@@ -14,8 +20,9 @@
         
         <!-- this body contains the variable part which ever the url we call bady changes according to that 
         ex: if i call http://localhost:8000/users/profile so i will give me the page of user_profile.ejs in body -->
-        <%- body %>
-        
+        <main id="layout-main">
+            <%- body %>
+        </main>
         <!-- including _footer.ejs file -->
         <%- include('_footer'); -%>
         
