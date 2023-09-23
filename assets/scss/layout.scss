@@ -1,9 +1,21 @@
+// body{
+//     margin: 0;
+//     /* text-align: center; */
+
+//     #layout-main{
+//         height: 100%;
+//         overflow: auto;
+//     }
+// }
+
 body{
     margin: 0;
+    padding: 0;
     /* text-align: center; */
 
     #layout-main{
-        height: 100%;
-        overflow: auto;
+        min-height: 90vh;
+        background-color: rgb(230, 230, 230);
+
     }
 }
