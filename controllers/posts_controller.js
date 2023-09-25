@@ -1,4 +1,5 @@
-const Post = require('../models/post')
+const Post = require('../models/post');
+const Comment = require('../models/comment');
 
 module.exports.create = async function (req, res) {
     try {
@@ -29,3 +30,44 @@ module.exports.create = async function (req, res) {
     }
 
 }
+
+
+module.exports.destroy = async function(req, res){
+    console.log("comming to post");
+        try{
+            let post = await Post.findById(req.params.id);
+    
+            if (post.user == req.user.id){
+    
+                //deleted the associated likes for the post
+                // await Like.deleteMany({likeable: post, onModel: 'Post'});
+                // await Like.deleteMany({_id: {$in: post.comments}});
+    
+    
+                await post.deleteOne();
+                await Comment.deleteMany({post: req.params.id});
+    
+    
+                if (req.xhr){
+                    return res.status(200).json({
+                        data: {
+                            post_id: req.params.id
+                        },
+                        message: "Post deleted"
+                    });
+                }
+    
+                console.log('success', 'Post and associated comments deleted!');
+    
+                return res.redirect('back');
+            }else{
+                console.log('error', 'You cannot delete this post!');
+                return res.redirect('back');
+            }
+    
+        }catch(err){
+            console.log('error', err);
+            return res.redirect('back');
+        }
+        
+    }
