@@ -13,7 +13,7 @@ module.exports.create = async function (req, res) {
             });
             post.comments.push(comment);
             post.save();
-
+            req.flash('success', 'Comment published!');
             res.redirect('/');
         
     }
@@ -53,15 +53,15 @@ module.exports.destroy = async function(req, res){
             }
 
 
-            console.log('success', 'Comment deleted!');
+            req.flash('success', 'Comment deleted!');
 
             return res.redirect('back');
         }else{
-            console.log('error', 'Unauthorized');
+            req.flash('error', 'Unauthorized');
             return res.redirect('back');
         }
     }catch(err){
-        console.log('error', err);
+        req.flash('error', err);
         return;
     }
     

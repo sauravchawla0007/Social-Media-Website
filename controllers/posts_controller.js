@@ -20,11 +20,11 @@ module.exports.create = async function (req, res) {
             });
         }
 
-        console.log('success', 'Post Published')
+        req.flash('success', 'Post Published')
         return res.redirect('back');
     } catch (err) {
         // console.log('Error', err);
-        console.log('error', err);
+        req.flash('error', err);
         // return;
         return res.redirect('back');
     }
@@ -57,16 +57,16 @@ module.exports.destroy = async function(req, res){
                     });
                 }
     
-                console.log('success', 'Post and associated comments deleted!');
+                req.flash('success', 'Post and associated comments deleted!');
     
                 return res.redirect('back');
             }else{
-                console.log('error', 'You cannot delete this post!');
+                req.flash('error', 'You cannot delete this post!');
                 return res.redirect('back');
             }
     
         }catch(err){
-            console.log('error', err);
+            req.flash('error', err);
             return res.redirect('back');
         }
         

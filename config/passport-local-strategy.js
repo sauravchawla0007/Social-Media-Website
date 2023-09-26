@@ -80,13 +80,13 @@ passport.use(new LocalStrategy({
             let user = await User.findOne({email: email});
     
                 if (!user || user.password != password){
-                    console.log('error', 'Invalid Username/Password');
+                    req.flash('error', 'Invalid Username/Password');
                     return done(null, false);
                 }
     
                 return done(null, user);
         }catch(err){
-            console.log("error in signin",err);
+            req.flash("error in signin",err);
             return done(err);
         }
     }

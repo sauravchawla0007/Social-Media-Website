@@ -37,13 +37,13 @@ module.exports.update = async function(req, res){
        
 
       }catch(err){
-          console.log('error', err);
+          req.flash('error', err);
           return res.redirect('back');
       }
 
 
   }else{
-      console.log('error', 'Unauthorized!');
+      req.flash('error', 'Unauthorized!');
       return res.status(401).send('Unauthorized');
   }
 }
@@ -85,6 +85,7 @@ module.exports.create = async (req, res) => {
     try {
 
        if (req.body.password != req.body.confirm_password) {
+           req.flash('error', 'Passwords do not match');
            return res.redirect("back");
        }
   
@@ -95,7 +96,7 @@ module.exports.create = async (req, res) => {
               
                   console.log('User is already present !!')
               }
-              console.log('success', 'You have Signed-Up Successfully !')
+              req.flash('error', 'Passwords do not match');('success', 'You have Signed-Up Successfully !')
               return res.redirect("/users/sign-in");
   
     } catch (error) {
