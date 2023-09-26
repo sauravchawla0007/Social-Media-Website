@@ -20,6 +20,11 @@
         
         <!-- this body contains the variable part which ever the url we call bady changes according to that 
         ex: if i call http://localhost:8000/users/profile so i will give me the page of user_profile.ejs in body -->
+        <% if(flash.success && flash.success.length > 0){ %>
+            <h5>
+                <%= flash.success %>
+            </h5>    
+        <% } %>
         <main id="layout-main">
             <%- body %>
         </main>
