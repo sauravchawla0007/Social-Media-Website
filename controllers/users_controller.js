@@ -2,14 +2,14 @@ const User = require('../models/user');
 
 module.exports.profile = async function(req, res){
   console.log(req.cookies,"inside profile");
-  try{
+  try{ 
     
-      // let user = await User.findById(req.cookies.user_id);
+       let user = await User.findById(req.params.id);
       // console.log(user,"user found");
           return res.render('user_profile', {
               title: 'User Profile',
               user: req.user,
-             // profile_user:user
+              profile_user : user
           });
         
   }catch(err){
@@ -17,6 +17,37 @@ module.exports.profile = async function(req, res){
   }
 
 }
+
+
+module.exports.update = async function(req, res){
+   
+
+  if(req.user.id == req.params.id){
+
+      try{
+
+          let user = await User.findByIdAndUpdate(req.params.id);
+          
+              
+              user.name = req.body.name;
+              user.email = req.body.email;
+
+              await user.save();
+              return res.redirect('back');
+       
+
+      }catch(err){
+          console.log('error', err);
+          return res.redirect('back');
+      }
+
+
+  }else{
+      console.log('error', 'Unauthorized!');
+      return res.status(401).send('Unauthorized');
+  }
+}
+
 
 // module.exports.profile = function(req,res){
 //     return res.render('user_profile',{
