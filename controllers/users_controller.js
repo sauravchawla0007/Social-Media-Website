@@ -1,4 +1,6 @@
 const User = require('../models/user');
+const fs = require('fs');
+const path = require('path');
 
 module.exports.profile = async function(req, res){
   console.log(req.cookies,"inside profile");
