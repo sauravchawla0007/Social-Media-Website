@@ -27,6 +27,17 @@ module.exports.create = async function (req, res) {
                 console.log('job enqueued', job.id);
 
             })
+            if (req.xhr){
+                // Similar for comments to fetch the user's id!
+               
+    
+                return res.status(200).json({
+                    data: {
+                        comment: comment
+                    },
+                    message: "Post created!"
+                });
+            }
             req.flash('success', 'Comment published!');
             res.redirect('/');
         
