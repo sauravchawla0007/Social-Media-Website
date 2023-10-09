@@ -12,6 +12,8 @@ router.use('/users',require('./users'));
 router.use('/posts',require('./posts'));
 //fetching comments.js
 router.use('/comments',require('./comments'));
+//likes
+router.use('/likes',require('./likes'));
 // for any further routes, access from here
 // router.use('/routerName', require('./routerfile));
 router.use('/api', require('./api'));
