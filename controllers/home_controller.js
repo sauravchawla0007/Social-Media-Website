@@ -5,16 +5,24 @@ module.exports.home = async function (req, res) {
   try {
       let posts = await Post.find({})
       //to sorted order our post
-          //.sort('-createdAt')
+          .sort('-createdAt')
           .populate('user')
           .populate({
             path: 'comments',
             populate: {
                 path: 'user'
+            },
+            populate: {
+                path:  'likes'
             }
+        }).populate('likes');
+        posts.forEach((post)=>{
+            post.comments.forEach(async (comment)=>{
+                comment.user = await User.findById(comment.user)
+            })
         })
-          .exec();
-          let users = await User.find({});
+        let users = await User.find({});
+        
       
       return res.render('home', {
           title: "Social | Home",

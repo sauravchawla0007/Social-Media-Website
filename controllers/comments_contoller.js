@@ -3,6 +3,8 @@ const Post = require('../models/post');
 const commentsMailer = require('../mailers/comments_mailer');
 const queue = require('../config/kue');
 const commentEmailWorker = require('../workers/comment_email_worker');
+const Like = require('../models/like');
+const User = require('../models/user')
 
 module.exports.create = async function (req, res) {
  
@@ -17,8 +19,8 @@ module.exports.create = async function (req, res) {
             post.comments.push(comment);
             post.save();
             comment = await comment.populate('user', 'name email');
-            //comment.post.user = await User.findById(comment.post.user);
-            //commentsMailer.newComment(comment);
+            comment.post.user = await User.findById(comment.post.user);
+            commentsMailer.newComment(comment);
             let job = queue.create('emails', comment).save(function(err){
                 if (err){
                     console.log('Error in sending to the queue', err);
@@ -65,7 +67,7 @@ module.exports.destroy = async function(req, res){
             await Post.findByIdAndUpdate(postId, { $pull: {comments:{_id: req.params.id}}});
 
             //destroy the associated likes for this comment
-            //await Like.deleteMany({likeable: comment._id, onModel: 'Comment'});
+            await Like.deleteMany({likeable: comment._id, onModel: 'Comment'});
 
             // send the comment id which was deleted back to the views
             if (req.xhr){

@@ -1,6 +1,6 @@
 const Post = require('../models/post');
 const Comment = require('../models/comment');
-
+const Like = require('../models/like');
 module.exports.create = async function (req, res) {
     try {
         let post = await Post.create({
@@ -24,9 +24,11 @@ module.exports.create = async function (req, res) {
         req.flash('success', 'Post Published')
         return res.redirect('back');
     } catch (err) {
-        // console.log('Error', err);
+        
         req.flash('error', err);
-        // return;
+         // added this to view the error on console as well
+         console.log(err);
+        
         return res.redirect('back');
     }
 
@@ -41,8 +43,8 @@ module.exports.destroy = async function(req, res){
             if (post.user == req.user.id){
     
                 //deleted the associated likes for the post
-                // await Like.deleteMany({likeable: post, onModel: 'Post'});
-                // await Like.deleteMany({_id: {$in: post.comments}});
+                await Like.deleteMany({likeable: post, onModel: 'Post'});
+                await Like.deleteMany({_id: {$in: post.comments}});
     
     
                 await post.deleteOne();

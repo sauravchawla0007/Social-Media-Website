@@ -83,7 +83,7 @@ app.use(flash());
 app.use(customMware.setFlash);
 
 //use express router
-app.use('/',require('./routes'));
+app.use('/',require('./routes/index'));
 
 //port listen
 app.listen(port,function(err){
