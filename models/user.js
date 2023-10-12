@@ -18,7 +18,13 @@ const userSchema = new mongoose.Schema({
     },
     avatar: {
         type: String
-    }
+    },
+    friendships: [
+        { 
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Friendship' 
+        }
+    ]
 },{
     timestamps:true//Timestamps save the current time of the document created and also when it was updated in form of a Date by turning it true
 })
