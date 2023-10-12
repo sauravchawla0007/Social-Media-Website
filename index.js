@@ -18,12 +18,18 @@ const passportJWT = require('./config/passport-jwt-strategy');
 const passportGoogle = require('./config/passport-google-oauth2-strategy');
 const MongoStore = require('connect-mongo');
 
+//using cors
+const cors = require("cors");
 const sassMiddleware = require('node-sass-middleware');
 //for flash notifications 
 const flash = require('connect-flash');
 const customMware = require('./config/middleware');//fetching
 
-
+// setup the chat server to be used with socket.io
+const chatServer = require('http').Server(app);
+const chatSockets = require('./config/chat_sockets').chatSockets(chatServer);
+chatServer.listen(5000);
+console.log('chat server is listening on port 5000');
 
 
 app.use(sassMiddleware({
@@ -34,6 +40,8 @@ app.use(sassMiddleware({
     prefix: '/css'
 }));
 
+//using cors
+app.use(cors());
 
 app.use(express.urlencoded());
 app.use(cookieParser());
